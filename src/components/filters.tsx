@@ -121,7 +121,7 @@ export function Filters({
             }}
             type="button"
           >
-            let Jev decide
+            let VAI decide
           </button>
         )}
       </div>
