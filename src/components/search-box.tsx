@@ -95,7 +95,7 @@ export function SearchBox({
           )}
           type="submit"
         >
-          <SearchIcon aria-hidden className={cn(compact ? 'size-3.5' : 'size-4.5')} />
+          <SearchIcon aria-hidden className={cn(compact ? 'size-3.5' : 'size-4')} />
         </button>
       </div>
     </form>
