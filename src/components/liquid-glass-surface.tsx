@@ -48,7 +48,7 @@ export function LiquidGlassSurface({
       <LiquidGlass
         aberrationIntensity={aberrationIntensity}
         blurAmount={blurAmount}
-        className="pointer-events-none absolute inset-0 h-full w-full"
+        className="liquid-glass-surface pointer-events-none absolute inset-0 h-full w-full"
         cornerRadius={cornerRadius}
         displacementScale={displacementScale}
         elasticity={elasticity}
