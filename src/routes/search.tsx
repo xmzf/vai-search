@@ -38,7 +38,7 @@ export const Route = createFileRoute('/search')({
   },
   head: ({ match }) => ({
     meta: [
-      { title: match.search.q ? `${match.search.q} · Jev Search` : 'Jev Search — Picks where to search. Ranks what comes back.' },
+      { title: match.search.q ? `${match.search.q} · Jev Search` : 'VAI Search — Search the web, without the noise.' },
       { name: 'robots', content: SEARCH_ROBOTS },
     ],
     links: [{ rel: 'canonical', href: HOME_CANONICAL }],
