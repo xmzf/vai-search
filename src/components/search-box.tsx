@@ -1,20 +1,18 @@
 import { useNavigate } from '@tanstack/react-router';
 import { SearchIcon } from 'lucide-react';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { LiquidGlassSurface } from './liquid-glass-surface';
 
 /** Newlines never reach the URL: a pasted or wrapped request is one line of words. */
 function oneLine(value: string): string {
   return value.replace(/\s+/g, ' ').trim();
 }
 
-const supportsFieldSizing = () => typeof CSS !== 'undefined' && CSS.supports('field-sizing', 'content');
-
 /**
- * A pill that opens. At rest it is one line, like any search box, with a
- * fade where a long request runs past the edge. Focused, the request wraps
- * and the box grows so the whole question can be read and edited; it folds
- * back on blur. Enter submits.
+ * The main input is the focal glass surface. The text remains a real textarea
+ * for keyboard and accessibility behaviour, while the visual shell is handled
+ * by liquid-glass-react.
  */
 export function SearchBox({
   initial = '',
@@ -26,76 +24,79 @@ export function SearchBox({
   autoFocus?: boolean;
 }) {
   const [value, setValue] = useState(initial);
-  const [expanded, setExpanded] = useState(false);
-  const [clipped, setClipped] = useState(false);
   const navigate = useNavigate();
-  const field = useRef<HTMLTextAreaElement>(null);
 
-  useLayoutEffect(() => {
-    const el = field.current;
-    if (!el) return;
-    // Browsers without `field-sizing: content` get the same growth from JS.
-    if (!supportsFieldSizing()) {
-      el.style.height = 'auto';
-      el.style.height = `${el.scrollHeight}px`;
-    }
-    if (!expanded) {
-      el.scrollLeft = 0;
-      setClipped(el.scrollWidth > el.clientWidth);
-    }
-  }, [value, expanded]);
-
-  const submit = (form: HTMLFormElement | null) => {
+  const submit = () => {
     const q = oneLine(value);
     if (!q) return;
-    form?.querySelector('textarea')?.blur();
-    // A new request resets explicit filters so the judge decides again.
     navigate({ to: '/search', search: { q }, viewTransition: true });
   };
 
   return (
     <form
-      className="vt-searchbox relative"
+      className={cn('vt-searchbox relative w-full', compact ? 'h-12' : 'h-[68px]')}
       onSubmit={(event) => {
         event.preventDefault();
-        submit(event.currentTarget);
+        submit();
       }}
       role="search"
     >
-      {/* The pill is this wrapper, so the text fade below never touches the border. */}
-      <div className="rounded-3xl border border-input shadow-sm transition-[color,box-shadow] has-focus-visible:border-ring has-focus-visible:shadow-md has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50 dark:bg-input/30">
+      <LiquidGlassSurface
+        className="absolute inset-0 rounded-full"
+        cornerRadius={999}
+        displacementScale={compact ? 18 : 28}
+        blurAmount={0.08}
+        saturation={125}
+        aberrationIntensity={1.35}
+        elasticity={0.08}
+      />
+      <div
+        className={cn(
+          'relative z-10 flex h-full w-full items-center rounded-full border border-white/45 bg-white/15 shadow-[0_10px_35px_rgba(15,23,42,0.08)] backdrop-blur-[1px] dark:border-white/10 dark:bg-white/[0.03]',
+          'transition-[box-shadow,border-color] duration-200',
+          'focus-within:border-primary/50 focus-within:shadow-[0_16px_50px_rgba(91,92,226,0.16)]',
+        )}
+      >
         <SearchIcon
           aria-hidden
-          className={cn('pointer-events-none absolute left-4 text-muted-foreground', compact ? 'top-3 size-4' : 'top-3.5 size-5')}
+          className={cn(
+            'pointer-events-none ml-5 shrink-0 text-muted-foreground',
+            compact ? 'size-4' : 'size-5',
+          )}
         />
         <textarea
           aria-label="Search"
           autoComplete="off"
           autoFocus={autoFocus}
           className={cn(
-            'block w-full min-w-0 resize-none overflow-hidden bg-transparent pl-11 pr-4 leading-6 outline-none placeholder:text-muted-foreground',
-            compact ? 'py-2 text-base md:text-sm' : 'py-3 text-base',
-            !expanded && clipped && '[mask-image:linear-gradient(to_right,black_calc(100%-3.5rem),transparent_calc(100%-1rem))]'
+            'min-w-0 flex-1 resize-none overflow-hidden bg-transparent px-3 py-3 text-foreground outline-none placeholder:text-muted-foreground',
+            compact ? 'h-12 text-[15px]' : 'h-[68px] text-[16px]',
           )}
           enterKeyHint="search"
           maxLength={300}
           name="q"
-          onBlur={() => setExpanded(false)}
           onChange={(event) => setValue(event.target.value)}
-          onFocus={() => setExpanded(true)}
           onKeyDown={(event) => {
             if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
               event.preventDefault();
-              submit(event.currentTarget.form);
+              submit();
             }
           }}
-          placeholder="Ask the web any way you like"
-          ref={field}
+          placeholder={compact ? 'Search…' : 'Ask anything across the web'}
           rows={1}
-          style={{ fieldSizing: 'content' } as React.CSSProperties}
           value={value}
-          wrap={expanded ? 'soft' : 'off'}
+          wrap="off"
         />
+        <button
+          aria-label="Search"
+          className={cn(
+            'mr-2 inline-flex shrink-0 items-center justify-center rounded-full bg-foreground text-background shadow-sm transition-transform duration-150 hover:scale-[1.03] active:scale-[0.97]',
+            compact ? 'size-8' : 'size-11',
+          )}
+          type="submit"
+        >
+          <SearchIcon aria-hidden className={cn(compact ? 'size-3.5' : 'size-4.5')} />
+        </button>
       </div>
     </form>
   );
