@@ -14,7 +14,7 @@ export function Wordmark({ size }: { size: 'sm' | 'lg' }) {
     >
       <Logo className={size === 'lg' ? 'size-12' : 'size-6'} />
       <span className="whitespace-nowrap leading-tight">
-        Jev<span className="text-primary-text"> Search</span>
+        VAI<span className="text-primary-text"> Search</span>
       </span>
     </Link>
   );
