@@ -48,7 +48,7 @@ export const Route = createFileRoute('/search')({
 
 function Header({ q }: { q: string }) {
   return (
-    <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-white/40 bg-background/55 backdrop-blur-2xl dark:border-white/[0.08] dark:bg-background/65">
       <div className="relative mx-auto flex max-w-5xl flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3">
         <Wordmark size="sm" />
         <div className="order-last w-full min-w-0 max-w-2xl sm:order-none sm:flex-1">
@@ -87,7 +87,7 @@ function SearchPage() {
   return (
     <>
       <Header q={params.q} />
-      <main className="mx-auto w-full max-w-5xl px-4 py-4">
+      <main className="relative z-10 mx-auto w-full max-w-5xl px-4 py-5 sm:px-6 sm:py-7">
         {!params.q.trim() && <p className="text-muted-foreground">Type something to search.</p>}
 
         {state.phase === 'error' && (
@@ -98,7 +98,7 @@ function SearchPage() {
         )}
 
         {params.q.trim() && state.phase !== 'error' && (
-          <div className="max-w-3xl">
+          <div className="max-w-3xl rounded-[30px] border border-white/35 bg-white/10 p-3 shadow-[0_24px_80px_rgba(15,23,42,0.07)] backdrop-blur-xl dark:border-white/[0.07] dark:bg-white/[0.025] sm:p-4">
             <div className="min-w-0">
               <Filters
                 state={state}
