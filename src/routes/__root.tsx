@@ -9,9 +9,9 @@ import { SHARE_IMAGE } from '@/lib/seo';
 import { cn } from '@/lib/utils';
 import appCss from '../styles.css?url';
 
-const TITLE = 'Jev Search — Picks where to search. Ranks what comes back.';
-const DESCRIPTION = "TypeSafe's Jev reads your question, selects sources, time ranges and search terms, and ranks the results. No generated answers.";
-const SHARE_IMAGE_ALT = 'Jev Search homepage with a search box, example queries and supported search engines.';
+const TITLE = 'VAI Search — Search the web, without the noise.';
+const DESCRIPTION = "VAI Search reads your question, searches across multiple sources, and ranks the results by relevance. No generated answers.";
+const SHARE_IMAGE_ALT = 'VAI Search homepage with a liquid glass search box and multi-source search interface.';
 const WEB_ANALYTICS_BEACON = JSON.stringify({ token: '6d6e9cf679fe45cb8ce7143deb36a0c2' });
 
 export const Route = createRootRoute({
@@ -35,10 +35,10 @@ export const Route = createRootRoute({
       { name: 'description', content: DESCRIPTION },
       { name: 'mobile-web-app-capable', content: 'yes' },
       { name: 'apple-mobile-web-app-capable', content: 'yes' },
-      { name: 'apple-mobile-web-app-title', content: 'Jev Search' },
+      { name: 'apple-mobile-web-app-title', content: 'VAI Search' },
       { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
       { property: 'og:type', content: 'website' },
-      { property: 'og:site_name', content: 'Jev Search' },
+      { property: 'og:site_name', content: 'VAI Search' },
       { property: 'og:title', content: TITLE },
       { property: 'og:description', content: DESCRIPTION },
       { property: 'og:image', content: SHARE_IMAGE },
@@ -80,6 +80,11 @@ function RootDocument({ children }: { readonly children: ReactNode }) {
         <HeadContent />
       </head>
       <body className="min-h-dvh flex flex-col">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <div className="ambient-orb ambient-orb-a" />
+          <div className="ambient-orb ambient-orb-b" />
+          <div className="ambient-orb ambient-orb-c" />
+        </div>
         {isHome && (
           <div className="absolute right-4 top-4 flex items-center gap-1 sm:right-6">
             <ThemeToggle />
@@ -119,7 +124,7 @@ function RootDocument({ children }: { readonly children: ReactNode }) {
               </a>
             </nav>
           )}
-          <div className="border-t">
+          <div className="border-t border-border/50 bg-background/30 backdrop-blur-lg">
             <p className={cn('mx-auto max-w-5xl px-4 py-4 leading-relaxed', isHome && 'text-center')}>
               <span className="block sm:inline">
                 Judgment by{' '}
