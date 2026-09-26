@@ -26,7 +26,7 @@ function ResultRow({
   const age = formatPublicationAge(item);
 
   return (
-    <article className={cn('group', minor ? 'pl-4 border-l' : '')}>
+    <article className={cn('group', minor ? 'border-l border-foreground/10 pl-4' : '')}>
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <span className="inline-flex size-4 shrink-0 items-center justify-center" title={sourceById(item.source).label}>
           <SourceIcon className="size-3.5" id={item.source} />
@@ -59,7 +59,7 @@ function ResultRow({
           <span
             className={cn(
               'inline-block size-2 rounded-full',
-              item.relevance >= 0.7 ? 'bg-emerald-500' : item.relevance >= 0.4 ? 'bg-amber-500' : 'bg-neutral-400'
+              item.relevance >= 0.7 ? 'bg-emerald-500' : item.relevance >= 0.4 ? 'bg-amber-500' : 'bg-slate-400'
             )}
           />
           {Math.round(item.relevance * 100)}% on topic
@@ -94,7 +94,7 @@ export function Results({
 
   const render = (list: Cluster[]) =>
     list.map((cluster) => (
-      <li className="enter flex flex-col gap-2" key={cluster.lead.id}>
+      <li className="enter flex flex-col gap-2 rounded-[24px] border border-white/40 bg-white/20 p-4 shadow-[0_12px_40px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-white/[0.07] dark:bg-white/[0.025] sm:p-5" key={cluster.lead.id}>
         <ResultRow item={cluster.lead} />
         {cluster.others.map((item) => (
           <ResultRow item={item} key={item.id} minor />
