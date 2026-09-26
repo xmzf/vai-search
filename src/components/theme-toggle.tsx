@@ -1,7 +1,7 @@
 import { Moon, Sun } from 'lucide-react';
 import { useEffect } from 'react';
 
-export const THEME_SURFACE = { light: '#fffafd', dark: '#191619' } as const;
+export const THEME_SURFACE = { light: '#f5f7fb', dark: '#090c12' } as const;
 
 export function paintThemeColor(dark: boolean) {
   const meta = document.querySelector('meta[name="theme-color"]');
