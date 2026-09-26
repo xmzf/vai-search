@@ -4,6 +4,7 @@ import { SOURCES, WINDOWS, sourceById, windowById, type SourceId, type WindowId 
 import type { AskState } from '@/lib/use-ask';
 import { cn } from '@/lib/utils';
 import { SourceIcon } from './source-icon';
+import { LiquidGlassSurface } from './liquid-glass-surface';
 
 const chip =
   'chip inline-flex h-8 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 text-sm text-muted-foreground hover:bg-accent disabled:opacity-50';
@@ -52,7 +53,16 @@ export function Filters({
   const others = SOURCES.filter((s) => !selected.has(s.id));
 
   return (
-    <div className="enter flex flex-col gap-2">
+    <LiquidGlassSurface
+      className="enter rounded-[22px] p-2"
+      cornerRadius={22}
+      displacementScale={18}
+      blurAmount={0.05}
+      saturation={118}
+      aberrationIntensity={1.1}
+      elasticity={0.04}
+    >
+      <div className="flex flex-col gap-2">
       <div className="flex flex-wrap items-center gap-2">
         <button
           className={cn(chip, active)}
@@ -144,6 +154,7 @@ export function Filters({
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </LiquidGlassSurface>
   );
 }
